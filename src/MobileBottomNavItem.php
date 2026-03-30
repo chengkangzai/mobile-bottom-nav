@@ -27,9 +27,9 @@ class MobileBottomNavItem
 
     protected bool | Closure $isVisible = true;
 
-    final public function __construct(protected string $label) {}
+    final public function __construct(protected string | Closure $label) {}
 
-    public static function make(string $label): static
+    public static function make(string | Closure $label): static
     {
         return new static($label);
     }
@@ -96,6 +96,10 @@ class MobileBottomNavItem
 
     public function getLabel(): string
     {
+        if ($this->label instanceof Closure) {
+            return ($this->label)();
+        }
+
         return $this->label;
     }
 
